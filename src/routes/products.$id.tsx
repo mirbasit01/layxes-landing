@@ -84,7 +84,7 @@ function ProductDetailPage() {
               <img src={product.images[imgIdx]} alt={product.name} className="h-full w-full object-cover" />
             </div>
             <div className="mt-3 grid grid-cols-4 gap-3">
-              {product.images.slice(0, 4).map((src, i) => (
+              {product.images.slice(0, 4).map((src: string, i: number) => (
                 <button
                   key={src}
                   onClick={() => setImgIdx(i)}
@@ -119,7 +119,7 @@ function ProductDetailPage() {
                 <button className="text-xs text-muted-foreground hover:text-foreground">Size guide</button>
               </div>
               <div className="flex flex-wrap gap-2">
-                {product.sizes.map((s) => {
+                {product.sizes.map((s: string) => {
                   const oos = product.outOfStockSizes?.includes(s);
                   const active = size === s;
                   return (
@@ -144,7 +144,7 @@ function ProductDetailPage() {
             <div className="mt-6">
               <h3 className="mb-2 text-sm font-medium">Color</h3>
               <div className="flex flex-wrap gap-2">
-                {product.colors.map((c) => (
+                {product.colors.map((c: string) => (
                   <button
                     key={c}
                     onClick={() => setColor(c)}

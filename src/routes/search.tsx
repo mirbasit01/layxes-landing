@@ -7,8 +7,8 @@ import { products } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/search")({
   validateSearch: z.object({ q: z.string().optional() }),
-  head: ({ search }) => ({
-    meta: [{ title: search?.q ? `Search: ${search.q} — ClothCo` : "Search — ClothCo" }],
+  head: () => ({
+    meta: [{ title: "Search — ClothCo" }],
   }),
   component: SearchPage,
 });
