@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ShieldCheck, Lock } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useCart, shippingFor } from "@/lib/cart-store";
+import { useCart, shippingFor, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/cart")({
@@ -18,6 +18,7 @@ function CartPage() {
   const items = useCart((s) => s.items);
   const updateQuantity = useCart((s) => s.updateQuantity);
   const removeItem = useCart((s) => s.removeItem);
+  const addItem = useCart((s) => s.addItem);
 
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -36,16 +37,30 @@ function CartPage() {
     }
   };
 
+  const onRemove = (i: CartItem) => {
+    removeItem(i.key);
+    toast("Removed from cart", {
+      description: i.name,
+      action: {
+        label: "Undo",
+        onClick: () => addItem(
+          { id: i.id, slug: i.slug, name: i.name, image: i.image, price: i.price, size: i.size, color: i.color, colorHex: i.colorHex },
+          i.quantity,
+        ),
+      },
+    });
+  };
+
   if (items.length === 0) {
     return (
       <SiteShell>
         <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center">
-          <div className="grid h-20 w-20 place-items-center rounded-full bg-muted">
-            <ShoppingBag className="h-8 w-8 text-muted-foreground" />
+          <div className="grid h-24 w-24 place-items-center rounded-full bg-muted">
+            <ShoppingBag className="h-10 w-10 text-muted-foreground" />
           </div>
-          <h1 className="mt-6 text-2xl font-semibold">Your cart is empty</h1>
+          <h1 className="mt-6 text-2xl font-bold">Your cart is empty</h1>
           <p className="mt-2 text-sm text-muted-foreground">Looks like you haven't added anything yet.</p>
-          <Button asChild className="mt-6" size="lg"><Link to="/products">Start Shopping</Link></Button>
+          <Button asChild className="mt-6" size="lg"><Link to="/products">Shop Now</Link></Button>
         </div>
       </SiteShell>
     );
@@ -54,28 +69,29 @@ function CartPage() {
   return (
     <SiteShell>
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">Your Cart</h1>
-        <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_360px]">
+        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Your Cart ({items.length})</h1>
+        <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_380px]">
           <div className="divide-y divide-border rounded-lg border border-border">
             {items.map((i) => (
               <div key={i.key} className="flex gap-4 p-4">
-                <Link to="/products/$id" params={{ id: i.id }} className="shrink-0">
-                  <img src={i.image} alt={i.name} className="h-24 w-20 rounded-md object-cover" />
+                <Link to="/products/$slug" params={{ slug: i.slug }} className="shrink-0">
+                  <img src={i.image} alt={i.name} className="h-28 w-24 rounded-md object-cover" />
                 </Link>
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <Link to="/products/$id" params={{ id: i.id }} className="font-medium hover:text-primary">
+                      <Link to="/products/$slug" params={{ slug: i.slug }} className="font-medium hover:text-primary">
                         {i.name}
                       </Link>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        Size {i.size} •{" "}
-                        <span className="inline-flex items-center gap-1">
-                          Color <span className="inline-block h-3 w-3 rounded-full border border-border align-middle" style={{ backgroundColor: i.color }} />
+                        Size {i.size} · <span className="inline-flex items-center gap-1">
+                          <span className="inline-block h-3 w-3 rounded-full border border-border align-middle" style={{ backgroundColor: i.colorHex }} />
+                          {i.color}
                         </span>
                       </p>
+                      <p className="mt-1 text-xs text-muted-foreground">{formatPrice(i.price)} each</p>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem(i.key)} aria-label="Remove">
+                    <Button variant="ghost" size="icon" onClick={() => onRemove(i)} aria-label="Remove">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -84,7 +100,7 @@ function CartPage() {
                       <Button variant="ghost" size="icon" onClick={() => updateQuantity(i.key, i.quantity - 1)} aria-label="Decrease">
                         <Minus className="h-4 w-4" />
                       </Button>
-                      <span className="w-9 text-center text-sm">{i.quantity}</span>
+                      <span className="w-9 text-center text-sm tabular-nums">{i.quantity}</span>
                       <Button variant="ghost" size="icon" onClick={() => updateQuantity(i.key, i.quantity + 1)} aria-label="Increase">
                         <Plus className="h-4 w-4" />
                       </Button>
@@ -96,8 +112,8 @@ function CartPage() {
             ))}
           </div>
 
-          <aside className="h-fit rounded-lg border border-border p-6">
-            <h2 className="text-lg font-semibold">Order Summary</h2>
+          <aside className="h-fit rounded-lg border border-border p-6 lg:sticky lg:top-24">
+            <h2 className="text-lg font-bold">Order Summary</h2>
             <div className="mt-4 space-y-2 text-sm">
               <Row label="Subtotal" value={formatPrice(subtotal)} />
               {discount > 0 && <Row label="Discount" value={`- ${formatPrice(discount)}`} accent />}
@@ -113,7 +129,13 @@ function CartPage() {
               </div>
             </div>
             <Button asChild size="lg" className="mt-6 w-full"><Link to="/checkout">Proceed to Checkout</Link></Button>
-            <p className="mt-3 text-center text-xs text-muted-foreground">Free shipping on orders over Rs. 2,000</p>
+            <div className="mt-3 flex items-center justify-center gap-3 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1"><Lock className="h-3 w-3" /> Secure</span>
+              <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> Safe payment</span>
+            </div>
+            <Link to="/products" className="mt-4 block text-center text-sm text-primary hover:underline">
+              ← Continue Shopping
+            </Link>
           </aside>
         </div>
       </div>
@@ -123,7 +145,7 @@ function CartPage() {
 
 function Row({ label, value, large, accent }: { label: string; value: string; large?: boolean; accent?: boolean }) {
   return (
-    <div className={`flex items-center justify-between ${large ? "text-base font-semibold" : ""} ${accent ? "text-primary" : ""}`}>
+    <div className={`flex items-center justify-between ${large ? "text-lg font-bold" : ""} ${accent ? "text-primary" : ""}`}>
       <span>{label}</span><span>{value}</span>
     </div>
   );

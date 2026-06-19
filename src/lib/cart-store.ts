@@ -2,13 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface CartItem {
-  id: string; // product id
-  key: string; // unique per id+size+color
+  id: string;
+  slug: string;
+  key: string;
   name: string;
   image: string;
-  price: number; // unit price (sale or regular)
+  price: number;
   size: string;
-  color: string;
+  color: string; // color name
+  colorHex: string;
   quantity: number;
 }
 
