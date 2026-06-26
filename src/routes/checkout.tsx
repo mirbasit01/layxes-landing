@@ -90,7 +90,7 @@ function CheckoutPage() {
                   <Input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} />
                 </Field>
                 <Field label="Phone" error={errors.phone}>
-                  <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+92 300 1234567" />
+                  <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+92 370 4104941" />
                 </Field>
               </div>
             </Section>

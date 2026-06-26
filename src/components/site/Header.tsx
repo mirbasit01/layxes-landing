@@ -67,7 +67,7 @@ export function Header() {
           <SheetContent side="left" className="w-80">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
-                <Shirt className="h-5 w-5 text-primary" /> ClothCo
+                <Shirt className="h-5 w-5 text-primary" /> ABWRH Threads
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-6 flex flex-col gap-1">
@@ -89,7 +89,7 @@ export function Header() {
           <div className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
             <Shirt className="h-5 w-5" />
           </div>
-          <span className="text-lg font-bold tracking-tight">ClothCo</span>
+          <span className="text-lg font-bold tracking-tight">ABWRH Threads</span>
         </Link>
 
         <nav className="ml-6 hidden items-center gap-6 md:flex">

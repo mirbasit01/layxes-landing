@@ -34,7 +34,7 @@ export function Footer() {
             <div className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
               <Shirt className="h-5 w-5" />
             </div>
-            <span className="text-lg font-bold tracking-tight">ClothCo</span>
+            <span className="text-lg font-bold tracking-tight">ABWRH Threads</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
             Modern Pakistani fashion. Crafted with care, delivered nationwide.
@@ -70,14 +70,14 @@ export function Footer() {
             <li><a className="hover:text-foreground" href="#">Size Guide</a></li>
             <li><a className="hover:text-foreground" href="#">FAQ</a></li>
             <li><a className="hover:text-foreground" href="#">Contact Us</a></li>
-            <li className="pt-2">Karachi, Pakistan</li>
-            <li>+92 300 1234567</li>
+            <li className="pt-2">Faisalabad, Pakistan</li>
+            <li>+92 370 4104941</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-muted-foreground sm:flex-row sm:px-6">
-          <span>© {new Date().getFullYear()} ClothCo. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} ABWRH Threads. All rights reserved.</span>
           <div className="flex items-center gap-2">
             <PayBadge>VISA</PayBadge>
             <PayBadge>Mastercard</PayBadge>
