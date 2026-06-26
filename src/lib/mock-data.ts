@@ -137,7 +137,6 @@ export const products: Product[] = SEEDS.map((s, i) => {
     createdAt: now - s.daysAgo * day,
   };
 });
-
 export const categories = [
   { name: "Women" as Category, image: img("clothco-cat-women", 800, 1000), href: "/products?category=Women" },
   { name: "Men" as Category, image: img("clothco-cat-men", 800, 1000), href: "/products?category=Men" },
