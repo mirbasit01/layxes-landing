@@ -1,4 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { Heart } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -6,12 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/lib/wishlist-store";
 import { products } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/wishlist")({
-  head: () => ({ meta: [{ title: "Wishlist — ClothCo" }] }),
-  component: WishlistPage,
-});
-
-function WishlistPage() {
+export default function WishlistPage() {
   const ids = useWishlist((s) => s.ids);
   const items = products.filter((p) => ids.includes(p.id));
 
@@ -26,7 +23,7 @@ function WishlistPage() {
             </div>
             <p className="mt-6 text-lg font-semibold">No saved items yet</p>
             <p className="mt-2 text-sm text-muted-foreground">Tap the heart on any product to save it for later.</p>
-            <Button asChild className="mt-6"><Link to="/products">Browse Products</Link></Button>
+            <Button asChild className="mt-6"><Link href="/products">Browse Products</Link></Button>
           </div>
         ) : (
           <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 xl:grid-cols-4">

@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { toast } from "sonner";
 import { Instagram, Facebook, MessageCircle, Shirt } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,25 +18,25 @@ export function Footer() {
 
   return (
     <footer className="mt-24 border-t border-border bg-muted/40">
-      <div className="border-b border-border">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-4 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
+      <div className="border-b border-border bg-foreground text-background">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-5 px-4 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <h3 className="text-lg font-semibold">Join our newsletter</h3>
-            <p className="text-sm text-muted-foreground">Get 10% off your first order.</p>
+            <h3 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Join the club</h3>
+            <p className="mt-1 text-sm text-background/60">Get 10% off your first order + early access to drops.</p>
           </div>
           <form onSubmit={onSubscribe} className="flex w-full max-w-md items-center gap-2">
-            <Input name="email" type="email" required placeholder="your@email.com" className="h-10" />
-            <Button type="submit" className="h-10">Subscribe</Button>
+            <Input name="email" type="email" required placeholder="your@email.com" className="h-11 rounded-full border-background/20 bg-background/10 text-background placeholder:text-background/50" />
+            <Button type="submit" size="lg" className="h-11 shrink-0">Subscribe</Button>
           </form>
         </div>
       </div>
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
+          <div className="flex items-center gap-2.5">
+            <div className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
               <Shirt className="h-5 w-5" />
             </div>
-            <span className="text-lg font-bold tracking-tight">ABWRH Threads</span>
+            <span className="font-display text-lg font-bold tracking-tight">ABWRH Threads</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
             Modern Pakistani fashion. Crafted with care, delivered nationwide.
@@ -46,7 +48,7 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold">About Us</h4>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">About Us</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><a className="hover:text-foreground" href="#">Our Story</a></li>
             <li><a className="hover:text-foreground" href="#">Sustainability</a></li>
@@ -55,16 +57,16 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold">Quick Links</h4>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Quick Links</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/products" search={{ category: "Women" }} className="hover:text-foreground">Women</Link></li>
-            <li><Link to="/products" search={{ category: "Men" }} className="hover:text-foreground">Men</Link></li>
-            <li><Link to="/products" search={{ category: "Kids" }} className="hover:text-foreground">Kids</Link></li>
-            <li><Link to="/products" search={{ sale: "1" }} className="hover:text-foreground">Sale</Link></li>
+            <li><Link href="/products?category=Women" className="hover:text-foreground">Women</Link></li>
+            <li><Link href="/products?category=Men" className="hover:text-foreground">Men</Link></li>
+            <li><Link href="/products?category=Kids" className="hover:text-foreground">Kids</Link></li>
+            <li><Link href="/products?sale=1" className="hover:text-foreground">Sale</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold">Customer Service</h4>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Customer Service</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><a className="hover:text-foreground" href="#">Shipping & Returns</a></li>
             <li><a className="hover:text-foreground" href="#">Size Guide</a></li>

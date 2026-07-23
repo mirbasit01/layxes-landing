@@ -1,4 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Minus, Plus, Trash2, ShoppingBag, ShieldCheck, Lock } from "lucide-react";
@@ -9,12 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCart, shippingFor, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/format";
 
-export const Route = createFileRoute("/cart")({
-  head: () => ({ meta: [{ title: "Your Cart — ClothCo" }] }),
-  component: CartPage,
-});
-
-function CartPage() {
+export default function CartPage() {
   const items = useCart((s) => s.items);
   const updateQuantity = useCart((s) => s.updateQuantity);
   const removeItem = useCart((s) => s.removeItem);
@@ -60,7 +57,7 @@ function CartPage() {
           </div>
           <h1 className="mt-6 text-2xl font-bold">Your cart is empty</h1>
           <p className="mt-2 text-sm text-muted-foreground">Looks like you haven't added anything yet.</p>
-          <Button asChild className="mt-6" size="lg"><Link to="/products">Shop Now</Link></Button>
+          <Button asChild className="mt-6" size="lg"><Link href="/products">Shop Now</Link></Button>
         </div>
       </SiteShell>
     );
@@ -74,13 +71,13 @@ function CartPage() {
           <div className="divide-y divide-border rounded-lg border border-border">
             {items.map((i) => (
               <div key={i.key} className="flex gap-4 p-4">
-                <Link to="/products/$slug" params={{ slug: i.slug }} className="shrink-0">
+                <Link href={`/products/${i.slug}`} className="shrink-0">
                   <img src={i.image} alt={i.name} className="h-28 w-24 rounded-md object-cover" />
                 </Link>
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <Link to="/products/$slug" params={{ slug: i.slug }} className="font-medium hover:text-primary">
+                      <Link href={`/products/${i.slug}`} className="font-medium hover:text-primary">
                         {i.name}
                       </Link>
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -128,12 +125,12 @@ function CartPage() {
                 <Button variant="outline" onClick={applyCoupon}>Apply</Button>
               </div>
             </div>
-            <Button asChild size="lg" className="mt-6 w-full"><Link to="/checkout">Proceed to Checkout</Link></Button>
+            <Button asChild size="lg" className="mt-6 w-full"><Link href="/checkout">Proceed to Checkout</Link></Button>
             <div className="mt-3 flex items-center justify-center gap-3 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1"><Lock className="h-3 w-3" /> Secure</span>
               <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> Safe payment</span>
             </div>
-            <Link to="/products" className="mt-4 block text-center text-sm text-primary hover:underline">
+            <Link href="/products" className="mt-4 block text-center text-sm text-primary hover:underline">
               ← Continue Shopping
             </Link>
           </aside>

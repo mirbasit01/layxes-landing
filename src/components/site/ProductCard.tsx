@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ShoppingBag, Star } from "lucide-react";
@@ -38,13 +40,12 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link
-      to="/products/$slug"
-      params={{ slug: product.slug }}
+      href={`/products/${product.slug}`}
       className="group block"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-xl group-hover:ring-foreground/20">
         <img
           src={product.images[0]}
           alt={product.name}
@@ -60,25 +61,25 @@ export function ProductCard({ product }: { product: Product }) {
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           style={{ opacity: hovering ? 1 : 0 }}
         />
-        <div className="absolute left-3 top-3 flex flex-col gap-1">
-          {product.isNew && <Badge className="bg-primary text-primary-foreground">New</Badge>}
+        <div className="absolute left-3 top-3 flex flex-col gap-1.5">
+          {product.isNew && <Badge className="bg-primary text-primary-foreground shadow-sm">New</Badge>}
           {onSale && (
-            <Badge className="bg-[var(--sale)] text-[var(--sale-foreground)]">
+            <Badge className="bg-[var(--sale)] text-[var(--sale-foreground)] shadow-sm">
               -{discountPercent(product.price, product.salePrice!)}%
             </Badge>
           )}
         </div>
         <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-          <Button onClick={quickAdd} size="sm" className="w-full gap-2 shadow-lg">
+          <Button onClick={quickAdd} size="sm" className="h-9 w-full gap-2 shadow-lg">
             <ShoppingBag className="h-4 w-4" /> Add to Cart
           </Button>
         </div>
       </div>
       <div className="mt-3 space-y-1">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
           {product.subcategory}
         </p>
-        <h3 className="text-sm font-medium leading-tight line-clamp-1 group-hover:text-primary transition-colors">
+        <h3 className="text-sm font-semibold leading-tight line-clamp-1 group-hover:text-primary transition-colors">
           {product.name}
         </h3>
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -89,13 +90,13 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="flex items-center gap-2 text-sm">
           {onSale ? (
             <>
-              <span className="font-semibold">{formatPrice(product.salePrice!)}</span>
+              <span className="font-bold text-[var(--sale)]">{formatPrice(product.salePrice!)}</span>
               <span className="text-muted-foreground line-through text-xs">
                 {formatPrice(product.price)}
               </span>
             </>
           ) : (
-            <span className="font-semibold">{formatPrice(product.price)}</span>
+            <span className="font-bold">{formatPrice(product.price)}</span>
           )}
         </div>
       </div>

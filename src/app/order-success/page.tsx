@@ -1,18 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/order-success")({
-  head: () => ({ meta: [{ title: "Order Placed — ClothCo" }] }),
-  component: OrderSuccessPage,
-});
-
-function OrderSuccessPage() {
+export default function OrderSuccessPage() {
   const [name, setName] = useState("");
-  const [orderId] = useState(() => `ORD-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [orderId, setOrderId] = useState("");
   useEffect(() => {
     setName(sessionStorage.getItem("clothco-last-name") || "");
+    setOrderId(`ORD-${Math.floor(1000 + Math.random() * 9000)}`);
   }, []);
 
   return (
@@ -43,7 +41,7 @@ function OrderSuccessPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button asChild size="lg"><Link to="/products">Continue Shopping</Link></Button>
+          <Button asChild size="lg"><Link href="/products">Continue Shopping</Link></Button>
           <Button size="lg" variant="outline" disabled>Track Order (Coming Soon)</Button>
         </div>
       </div>

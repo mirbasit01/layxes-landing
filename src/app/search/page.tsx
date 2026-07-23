@@ -1,20 +1,20 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { z } from "zod";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteShell } from "@/components/site/SiteShell";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Button } from "@/components/ui/button";
 import { products } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/search")({
-  validateSearch: z.object({ q: z.string().optional() }),
-  head: () => ({
-    meta: [{ title: "Search — ClothCo" }],
-  }),
-  component: SearchPage,
-});
+export const metadata: Metadata = {
+  title: "Search",
+};
 
-function SearchPage() {
-  const { q } = Route.useSearch();
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
   const query = (q ?? "").trim().toLowerCase();
   const results = query
     ? products.filter(
@@ -38,7 +38,7 @@ function SearchPage() {
         {query && results.length === 0 && (
           <div className="mt-10 rounded-lg border border-dashed border-border p-16 text-center">
             <p className="text-muted-foreground">No products match your search.</p>
-            <Button asChild variant="outline" className="mt-4"><Link to="/products">Browse all products</Link></Button>
+            <Button asChild variant="outline" className="mt-4"><Link href="/products">Browse all products</Link></Button>
           </div>
         )}
 

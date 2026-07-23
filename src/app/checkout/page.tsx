@@ -1,4 +1,7 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
@@ -23,19 +26,14 @@ const schema = z.object({
 });
 type FormShape = z.infer<typeof schema>;
 
-export const Route = createFileRoute("/checkout")({
-  head: () => ({ meta: [{ title: "Checkout — ClothCo" }] }),
-  component: CheckoutPage,
-});
-
-function CheckoutPage() {
+export default function CheckoutPage() {
   const items = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
-    if (items.length === 0) navigate({ to: "/cart" });
-  }, [items.length, navigate]);
+    if (items.length === 0) router.push("/cart");
+  }, [items.length, router]);
 
   const [form, setForm] = useState<FormShape>({
     name: "", email: "", phone: "+92 ", address: "", city: "", province: "", postal: "",
@@ -64,7 +62,7 @@ function CheckoutPage() {
     sessionStorage.setItem("clothco-last-name", form.name);
     setTimeout(() => {
       clear();
-      navigate({ to: "/order-success" });
+      router.push("/order-success");
     }, 1500);
   };
 
@@ -140,7 +138,7 @@ function CheckoutPage() {
               {submitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Placing order...</> : "Place Order"}
             </Button>
             <p className="mt-3 text-center text-xs text-muted-foreground">
-              <Link to="/cart" className="hover:text-foreground">← Return to cart</Link>
+              <Link href="/cart" className="hover:text-foreground">← Return to cart</Link>
             </p>
           </aside>
         </form>

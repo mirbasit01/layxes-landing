@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node_modules/.bin/next --version)",
+      "Bash(echo \"next installed: $\\(node_modules/.bin/next --version\\)\")"
+    ]
+  }
+}

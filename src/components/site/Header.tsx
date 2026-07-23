@@ -1,4 +1,7 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Moon, Sun, Search, ShoppingBag, Heart, Menu, X, Shirt } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,12 +18,12 @@ import {
 } from "@/components/ui/sheet";
 
 const NAV = [
-  { label: "Home", to: "/" as const, search: undefined },
-  { label: "Women", to: "/products" as const, search: { category: "Women" } },
-  { label: "Men", to: "/products" as const, search: { category: "Men" } },
-  { label: "Kids", to: "/products" as const, search: { category: "Kids" } },
-  { label: "Accessories", to: "/products" as const, search: { category: "Accessories" } },
-  { label: "Sale", to: "/products" as const, search: { sale: "1" } },
+  { label: "Home", href: "/" },
+  { label: "Women", href: "/products?category=Women" },
+  { label: "Men", href: "/products?category=Men" },
+  { label: "Kids", href: "/products?category=Kids" },
+  { label: "Accessories", href: "/products?category=Accessories" },
+  { label: "Sale", href: "/products?sale=1" },
 ];
 
 export function Header() {
@@ -30,8 +33,8 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -43,7 +46,7 @@ export function Header() {
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!q.trim()) return;
-    navigate({ to: "/search", search: { q: q.trim() } });
+    router.push(`/search?q=${encodeURIComponent(q.trim())}`);
     setSearchOpen(false);
   };
 
@@ -66,17 +69,19 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="left" className="w-80">
             <SheetHeader>
-              <SheetTitle className="flex items-center gap-2">
-                <Shirt className="h-5 w-5 text-primary" /> ABWRH Threads
+              <SheetTitle className="flex items-center gap-2 font-display">
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
+                  <Shirt className="h-4 w-4" />
+                </span>
+                ABWRH Threads
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-6 flex flex-col gap-1">
               {NAV.map((n) => (
                 <Link
                   key={n.label}
-                  to={n.to}
-                  search={n.search as any}
-                  className="rounded-md px-3 py-3 text-base hover:bg-muted"
+                  href={n.href}
+                  className="rounded-xl px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-muted"
                 >
                   {n.label}
                 </Link>
@@ -85,26 +90,30 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <Link to="/" className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Shirt className="h-5 w-5" />
           </div>
-          <span className="text-lg font-bold tracking-tight">ABWRH Threads</span>
+          <span className="font-display text-lg font-bold tracking-tight">ABWRH Threads</span>
         </Link>
 
-        <nav className="ml-6 hidden items-center gap-6 md:flex">
+        <nav className="ml-8 hidden items-center gap-7 md:flex">
           {NAV.map((n) => {
-            const active = n.to === pathname && !n.search;
+            const active = n.href === pathname;
             return (
               <Link
                 key={n.label}
-                to={n.to}
-                search={n.search as any}
-                className={`text-sm transition-colors hover:text-primary ${
+                href={n.href}
+                className={`group relative text-xs font-semibold uppercase tracking-wider transition-colors hover:text-foreground ${
                   active ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {n.label}
+                <span
+                  className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-primary transition-all group-hover:w-full ${
+                    active ? "w-full" : "w-0"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -132,7 +141,7 @@ export function Header() {
           <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Link to="/wishlist" className="relative">
+          <Link href="/wishlist" className="relative">
             <Button variant="ghost" size="icon" aria-label="Wishlist">
               <Heart className="h-5 w-5" />
             </Button>
@@ -142,7 +151,7 @@ export function Header() {
               </span>
             )}
           </Link>
-          <Link to="/cart" className="relative">
+          <Link href="/cart" className="relative">
             <Button variant="ghost" size="icon" aria-label="Cart">
               <ShoppingBag className="h-5 w-5" />
             </Button>

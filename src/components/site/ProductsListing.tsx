@@ -1,6 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+"use client";
+
 import { useMemo, useState } from "react";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
 import { SiteShell } from "@/components/site/SiteShell";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -14,22 +15,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { SlidersHorizontal } from "lucide-react";
 import { products, allColors, allSizes, type Category } from "@/lib/mock-data";
 
-const searchSchema = z.object({
-  category: z.string().optional(),
-  sale: z.string().optional(),
-});
-
-export const Route = createFileRoute("/products")({
-  validateSearch: searchSchema,
-  head: () => ({
-    meta: [
-      { title: "Shop All — ClothCo" },
-      { name: "description", content: "Browse our full collection of Pakistani clothing and accessories." },
-    ],
-  }),
-  component: ProductsPage,
-});
-
 const CATEGORIES: Category[] = ["Women", "Men", "Kids", "Accessories"];
 const SORTS = [
   { value: "latest", label: "Latest" },
@@ -38,16 +23,24 @@ const SORTS = [
   { value: "featured", label: "Featured" },
 ];
 
-function ProductsPage() {
-  const search = Route.useSearch();
-  const navigate = useNavigate();
-  const initialCat = search.category && CATEGORIES.includes(search.category as Category) ? [search.category as Category] : [];
+export function ProductsListing({
+  initialCategory,
+  initialSale,
+}: {
+  initialCategory?: string;
+  initialSale?: boolean;
+}) {
+  const router = useRouter();
+  const initialCat =
+    initialCategory && CATEGORIES.includes(initialCategory as Category)
+      ? [initialCategory as Category]
+      : [];
 
   const [cats, setCats] = useState<Category[]>(initialCat);
   const [sizes, setSizes] = useState<string[]>([]);
   const [colorNames, setColorNames] = useState<string[]>([]);
   const [price, setPrice] = useState<[number, number]>([0, 10000]);
-  const [saleOnly, setSaleOnly] = useState(search.sale === "1");
+  const [saleOnly, setSaleOnly] = useState(Boolean(initialSale));
   const [sort, setSort] = useState("latest");
 
   const filtered = useMemo(() => {
@@ -74,7 +67,7 @@ function ProductsPage() {
 
   const resetFilters = () => {
     setCats([]); setSizes([]); setColorNames([]); setPrice([0, 10000]); setSaleOnly(false);
-    navigate({ to: "/products", search: {} });
+    router.push("/products");
   };
 
   const FilterPanel = (

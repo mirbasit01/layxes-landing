@@ -1,4 +1,6 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Minus, Plus, ChevronRight, Star, Heart, Share2, Truck, RefreshCw, ShieldCheck } from "lucide-react";
@@ -7,32 +9,12 @@ import { ProductCard } from "@/components/site/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { products, findBySlug } from "@/lib/mock-data";
+import { products, type Product } from "@/lib/mock-data";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
 import { useWishlist } from "@/lib/wishlist-store";
 
-export const Route = createFileRoute("/products/$slug")({
-  loader: ({ params }) => {
-    const product = findBySlug(params.slug);
-    if (!product) throw notFound();
-    return { product };
-  },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.product.name} — ClothCo` },
-          { name: "description", content: loaderData.product.description },
-          { property: "og:title", content: loaderData.product.name },
-          { property: "og:image", content: loaderData.product.images[0] },
-        ]
-      : [],
-  }),
-  component: ProductDetailPage,
-});
-
-function ProductDetailPage() {
-  const { product } = Route.useLoaderData();
+export function ProductDetail({ product }: { product: Product }) {
   const [imgIdx, setImgIdx] = useState(0);
   const [size, setSize] = useState<string | null>(null);
   const [color, setColor] = useState(product.colors[0]);
@@ -91,9 +73,9 @@ function ProductDetailPage() {
     <SiteShell>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <nav className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Home</Link>
+          <Link href="/" className="hover:text-foreground">Home</Link>
           <ChevronRight className="h-3 w-3" />
-          <Link to="/products" search={{ category: product.category }} className="hover:text-foreground">{product.category}</Link>
+          <Link href={`/products?category=${encodeURIComponent(product.category)}`} className="hover:text-foreground">{product.category}</Link>
           <ChevronRight className="h-3 w-3" />
           <span className="text-foreground">{product.subcategory}</span>
         </nav>
@@ -101,7 +83,7 @@ function ProductDetailPage() {
         <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
           {/* Gallery */}
           <div>
-            <div className="group aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+            <div className="group aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60">
               <img
                 src={product.images[imgIdx]}
                 alt={product.name}
@@ -113,7 +95,7 @@ function ProductDetailPage() {
                 <button
                   key={src}
                   onClick={() => setImgIdx(i)}
-                  className={`aspect-square overflow-hidden rounded-md border-2 transition ${i === imgIdx ? "border-primary" : "border-transparent hover:border-border"}`}
+                  className={`aspect-square overflow-hidden rounded-xl border-2 transition ${i === imgIdx ? "border-primary" : "border-transparent hover:border-border"}`}
                 >
                   <img src={src} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -123,8 +105,8 @@ function ProductDetailPage() {
 
           {/* Info */}
           <div>
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">{product.subcategory}</p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight md:text-4xl">{product.name}</h1>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{product.subcategory}</p>
+            <h1 className="mt-1 font-display text-3xl font-bold tracking-tight md:text-4xl">{product.name}</h1>
 
             {/* Rating */}
             <div className="mt-3 flex items-center gap-2 text-sm">
@@ -170,7 +152,7 @@ function ProductDetailPage() {
                       disabled={oos}
                       onClick={() => setSize(s)}
                       title={oos ? "Out of stock" : s}
-                      className={`min-w-12 rounded-md border px-3 py-2 text-sm transition ${
+                      className={`min-w-12 rounded-xl border-2 px-3 py-2 text-sm font-semibold transition ${
                         active
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border hover:border-foreground"
@@ -207,7 +189,7 @@ function ProductDetailPage() {
 
             {/* Quantity + Add */}
             <div className={`mt-8 flex items-center gap-3 ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
-              <div className="flex items-center rounded-md border border-border">
+              <div className="flex items-center rounded-full border-2 border-border">
                 <Button variant="ghost" size="icon" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease">
                   <Minus className="h-4 w-4" />
                 </Button>
