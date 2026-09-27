@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const KEY = "clothco-theme";
+const KEY = "layxes-theme";
 type Theme = "light" | "dark";
 
 const applyTheme = (t: Theme) => {

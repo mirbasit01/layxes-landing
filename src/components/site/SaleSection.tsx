@@ -22,13 +22,13 @@ export function SaleSection({ products }: { products: Product[] }) {
   }, []);
 
   return (
-    <section className="bg-gradient-to-br from-rose-600 via-red-600 to-rose-700 py-16 text-white">
+    <section className="bg-neutral-950 py-16 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="text-sm uppercase tracking-[0.25em] text-white/80">Limited time</p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Flash Sale</h2>
-            <p className="mt-1 text-sm text-white/85">Save up to 30% on selected pieces.</p>
+            <p className="mt-1 text-sm text-white/70">Save on selected winter essentials.</p>
           </div>
           <div className="flex gap-3 text-center">
             <TimeBox label="Days" value={t.d} />
@@ -51,7 +51,7 @@ export function SaleSection({ products }: { products: Product[] }) {
 
 function TimeBox({ label, value }: { label: string; value: number }) {
   return (
-    <div className="min-w-16 rounded-xl bg-white/15 px-3 py-2 ring-1 ring-white/20 backdrop-blur">
+    <div className="min-w-16 rounded-none bg-white/10 px-3 py-2 ring-1 ring-white/20 backdrop-blur">
       <div className="font-display text-3xl font-bold tabular-nums">{String(value).padStart(2, "0")}</div>
       <div className="text-[10px] font-semibold uppercase tracking-wider text-white/80">{label}</div>
     </div>

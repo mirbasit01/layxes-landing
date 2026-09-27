@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-const KEY = "clothco-announce-dismissed";
+const KEY = "layxes-announce-dismissed";
 
 const MESSAGES = [
-  "Free delivery on orders above Rs. 2,000",
-  "Use code SAVE10 for 10% off your first order",
-  "New drops every week",
-  "Genuine fabric · Quality guaranteed",
-  "7-day easy returns",
+  "Free delivery on orders above Rs. 5,000",
+  "Winter Drop 01 — Limited first run",
+  "Heavyweight fleece · Made to last",
+  "Designed in Pakistan",
+  "7-day easy exchanges",
 ];
 
 export function AnnouncementBar() {

@@ -53,8 +53,8 @@ export const useCart = create<CartState>()(
       totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
       subtotal: () => get().items.reduce((sum, i) => sum + i.quantity * i.price, 0),
     }),
-    { name: "clothco-cart" },
+    { name: "layxes-cart" },
   ),
 );
 
-export const shippingFor = (subtotal: number) => (subtotal >= 2000 || subtotal === 0 ? 0 : 200);
+export const shippingFor = (subtotal: number) => (subtotal >= 5000 || subtotal === 0 ? 0 : 250);

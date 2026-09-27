@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ShoppingBag, Star } from "lucide-react";
@@ -9,6 +10,7 @@ import { formatPrice, discountPercent } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-store";
+import { openCartDrawer } from "@/lib/cart-events";
 
 export function ProductCard({ product }: { product: Product }) {
   const onSale = product.salePrice != null;
@@ -35,7 +37,7 @@ export function ProductCard({ product }: { product: Product }) {
       color: color.name,
       colorHex: color.hex,
     });
-    toast.success("Added to cart", { description: `${product.name} • ${firstAvail}` });
+    openCartDrawer();
   };
 
   return (
@@ -46,19 +48,22 @@ export function ProductCard({ product }: { product: Product }) {
       onMouseLeave={() => setHovering(false)}
     >
       <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-xl group-hover:ring-foreground/20">
-        <img
+        <Image
           src={product.images[0]}
           alt={product.name}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover transition-opacity duration-500"
           style={{ opacity: hovering ? 0 : 1 }}
         />
-        <img
+        <Image
           src={product.images[1] ?? product.images[0]}
           alt=""
           loading="lazy"
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           style={{ opacity: hovering ? 1 : 0 }}
         />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
@@ -69,7 +74,7 @@ export function ProductCard({ product }: { product: Product }) {
             </Badge>
           )}
         </div>
-        <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-2 bottom-2 opacity-100 transition-all duration-200 md:inset-x-3 md:bottom-3">
           <Button onClick={quickAdd} size="sm" className="h-9 w-full gap-2 shadow-lg">
             <ShoppingBag className="h-4 w-4" /> Add to Cart
           </Button>
@@ -83,7 +88,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.name}
         </h3>
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+          <Star className="h-3 w-3 fill-current text-foreground" />
           <span>{product.rating.toFixed(1)}</span>
           <span>· {product.reviewCount}</span>
         </div>

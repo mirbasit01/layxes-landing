@@ -7,6 +7,9 @@ import { products } from "@/lib/mock-data";
 
 export const metadata: Metadata = {
   title: "Search",
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/search" },
+  openGraph: { url: "/search", title: "Search LAYXES", description: "Find products in the LAYXES winter collection." },
 };
 
 export default async function SearchPage({

@@ -18,26 +18,36 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://layxes.pk"),
   title: {
-    default: "ClothCo — Modern Pakistani Fashion",
-    template: "%s — ClothCo",
+    default: "LAYXES | Premium Winter Streetwear in Pakistan",
+    template: "%s — LAYXES",
   },
-  description: "Shop curated lawn suits, kurtas, kidswear and accessories at ClothCo.",
+  applicationName: "LAYXES",
+  creator: "LAYXES",
+  publisher: "LAYXES",
+  category: "fashion",
+  description: "Shop premium hoodies, sweatpants and winter streetwear by LAYXES. Heavyweight everyday essentials, designed in Pakistan and delivered nationwide.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   openGraph: {
-    title: "ClothCo — Modern Pakistani Fashion",
-    description: "Shop curated lawn suits, kurtas, kidswear and accessories at ClothCo.",
+    title: "LAYXES | Premium Winter Streetwear in Pakistan",
+    description: "Shop premium hoodies, sweatpants and winter streetwear by LAYXES.",
     type: "website",
+    url: "/",
+    siteName: "LAYXES",
+    locale: "en_PK",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "LAYXES Winter Drop 01" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", title: "LAYXES | Winter Streetwear", description: "Premium winter essentials, designed in Pakistan.", images: ["/opengraph-image"] },
 };
 
 // Apply the persisted theme before hydration to avoid a flash of the wrong theme.
-const themeScript = `(function(){try{var t=localStorage.getItem('clothco-theme');var d=t?t==='dark':(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('layxes-theme');var d=t?t==='dark':false;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      lang="en"
+      lang="en-PK"
       className={`${inter.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
@@ -45,6 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
+          { "@context": "https://schema.org", "@type": "Organization", name: "LAYXES", url: process.env.NEXT_PUBLIC_SITE_URL || "https://layxes.pk", logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://layxes.pk"}/icon.svg`, description: "Premium winter streetwear designed in Pakistan." },
+          { "@context": "https://schema.org", "@type": "WebSite", name: "LAYXES", url: process.env.NEXT_PUBLIC_SITE_URL || "https://layxes.pk", inLanguage: "en-PK", potentialAction: { "@type": "SearchAction", target: `${process.env.NEXT_PUBLIC_SITE_URL || "https://layxes.pk"}/search?q={search_term_string}`, "query-input": "required name=search_term_string" } },
+        ]).replace(/</g, "\\u003c") }} />
         <Providers>{children}</Providers>
       </body>
     </html>

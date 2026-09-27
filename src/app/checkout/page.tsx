@@ -59,7 +59,7 @@ export default function CheckoutPage() {
     }
     setErrors({});
     setSubmitting(true);
-    sessionStorage.setItem("clothco-last-name", form.name);
+    sessionStorage.setItem("layxes-last-name", form.name);
     setTimeout(() => {
       clear();
       router.push("/order-success");

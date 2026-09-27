@@ -1,163 +1,50 @@
-export type Category = "Men" | "Women" | "Kids" | "Accessories";
-
-export interface ColorOption {
-  name: string;
-  hex: string;
-}
-
+export type Category = "Hoodies" | "Bottoms" | "Sets";
+export interface ColorOption { name: string; hex: string }
 export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  category: Category;
-  subcategory: string;
-  price: number;
-  salePrice?: number;
-  colors: ColorOption[];
-  sizes: string[];
-  outOfStockSizes?: string[];
-  images: string[];
-  description: string;
-  stock: number;
-  isNew?: boolean;
-  isFeatured?: boolean;
-  rating: number;
-  reviewCount: number;
-  createdAt: number;
+  id: string; slug: string; name: string; category: Category; subcategory: string;
+  price: number; salePrice?: number; colors: ColorOption[]; sizes: string[];
+  outOfStockSizes?: string[]; images: string[]; description: string; stock: number;
+  isNew?: boolean; isFeatured?: boolean; rating: number; reviewCount: number; createdAt: number;
 }
 
-const img = (seed: string, w = 600, h = 800) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
-
-const gallery = (seed: string) => [
-  img(`${seed}-front`),
-  img(`${seed}-back`),
-  img(`${seed}-side`),
-  img(`${seed}-detail`),
-];
-
-const APPAREL = ["S", "M", "L", "XL"];
-const APPAREL_XL = ["S", "M", "L", "XL", "XXL"];
-const KIDS = ["2-3Y", "4-5Y", "6-7Y", "8-9Y"];
-const ONE = ["One Size"];
-
-const C = {
-  black: { name: "Black", hex: "#0a0a0a" },
-  white: { name: "White", hex: "#f8fafc" },
-  emerald: { name: "Emerald", hex: "#10b981" },
-  navy: { name: "Navy", hex: "#1e3a8a" },
-  beige: { name: "Beige", hex: "#d6c6a8" },
-  rose: { name: "Rose", hex: "#e11d48" },
-  mustard: { name: "Mustard", hex: "#d4a017" },
-  sky: { name: "Sky", hex: "#38bdf8" },
-  charcoal: { name: "Charcoal", hex: "#3f3f46" },
-  maroon: { name: "Maroon", hex: "#7f1d1d" },
-  cream: { name: "Cream", hex: "#f5efe0" },
-  olive: { name: "Olive", hex: "#556b2f" },
+const sizes = ["S", "M", "L", "XL", "XXL"];
+const colors = {
+  black: { name: "Washed Black", hex: "#242421" },
+  grey: { name: "Heather Grey", hex: "#9a9994" },
+  cream: { name: "Oatmeal", hex: "#d7ccba" },
+  navy: { name: "Midnight Navy", hex: "#252b37" },
+  olive: { name: "Moss", hex: "#626554" },
 };
-
-const now = Date.now();
-const day = 86_400_000;
-const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-const slugify = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
-interface Seed {
-  name: string;
-  category: Category;
-  subcategory: string;
-  price: number;
-  salePrice?: number;
-  colors: ColorOption[];
-  sizes: string[];
-  outOfStockSizes?: string[];
-  description: string;
-  isFeatured?: boolean;
-  isNew?: boolean;
-  daysAgo: number;
-}
-
-const SEEDS: Seed[] = [
-  { name: "Floral Lawn 3-Piece Suit", category: "Women", subcategory: "Lawn Suit", price: 6500, salePrice: 4990, colors: [C.rose, C.beige, C.emerald], sizes: APPAREL, outOfStockSizes: ["S"], description: "Hand-embroidered lawn 3-piece with chiffon dupatta and trousers. Lightweight cotton lawn keeps you cool through Pakistani summers. Perfect for daytime events and casual gatherings.", isFeatured: true, isNew: true, daysAgo: 1 },
-  { name: "Embroidered Chikankari Kameez", category: "Women", subcategory: "Kameez", price: 4200, colors: [C.sky, C.white], sizes: APPAREL, description: "Delicate Lucknowi chikankari threadwork on premium lawn fabric. A timeless silhouette that pairs effortlessly with shalwar or trousers. Soft pastels keep the look fresh.", isFeatured: true, daysAgo: 5 },
-  { name: "Premium Luxury Lawn Suit", category: "Women", subcategory: "Lawn Suit", price: 8500, salePrice: 6800, colors: [C.maroon, C.navy], sizes: APPAREL, description: "Premium quality lawn with intricate Mughal-inspired prints and zari border. Includes embroidered front, plain back and printed dupatta. A statement summer piece.", isFeatured: true, daysAgo: 12 },
-  { name: "Printed Shalwar Kameez Set", category: "Women", subcategory: "Shalwar Kameez", price: 3800, colors: [C.mustard, C.charcoal], sizes: APPAREL, outOfStockSizes: ["L"], description: "Easy everyday shalwar kameez in breathable cotton with subtle geometric prints. Cut for a relaxed fit that moves with you all day.", isNew: true, daysAgo: 3 },
-  { name: "Chiffon Embroidered Dupatta", category: "Women", subcategory: "Dupatta", price: 1200, salePrice: 899, colors: [C.rose, C.emerald, C.mustard, C.sky], sizes: ONE, description: "Sheer chiffon dupatta finished with hand-embroidered borders and sequin detailing. The perfect finishing touch for any outfit. Long enough to drape and style.", daysAgo: 20 },
-  { name: "Pure Silk Banarsi Dupatta", category: "Women", subcategory: "Dupatta", price: 2400, colors: [C.maroon, C.beige], sizes: ONE, description: "Pure silk dupatta with traditional Banarsi handwoven motifs in metallic thread. A heritage piece that elevates festive and bridal looks.", daysAgo: 8 },
-  { name: "Festive Lehenga Choli", category: "Women", subcategory: "Lehenga", price: 7900, salePrice: 5990, colors: [C.maroon, C.emerald], sizes: APPAREL, description: "Heavy festive lehenga with embroidered choli and net dupatta. Designed for mehndi nights, weddings and milestone celebrations. Showstopping silhouette.", isFeatured: true, isNew: true, daysAgo: 2 },
-  { name: "Casual Tunic Top", category: "Women", subcategory: "Tunic", price: 2200, colors: [C.white, C.black, C.sky], sizes: APPAREL, description: "Lightweight tunic top in soft cotton blend. A versatile staple that pairs with jeans, trousers or shalwar. Easy care, easy wear.", daysAgo: 15 },
-
-  { name: "Classic Cotton Kurta", category: "Men", subcategory: "Kurta", price: 2800, colors: [C.white, C.beige, C.navy], sizes: APPAREL_XL, description: "Breathable cotton kurta with a clean tailored fit and side slits. Wear it for Friday prayers, family dinners or layered under a waistcoat.", isFeatured: true, isNew: true, daysAgo: 4 },
-  { name: "Embroidered Wedding Kurta", category: "Men", subcategory: "Kurta", price: 4500, salePrice: 3499, colors: [C.charcoal, C.cream], sizes: APPAREL_XL, outOfStockSizes: ["S"], description: "Hand-embroidered formal kurta with tonal threadwork along the placket and cuffs. Tailored for special occasions and shaadi season.", isFeatured: true, daysAgo: 9 },
-  { name: "Linen Kurta Shalwar Set", category: "Men", subcategory: "Shalwar Kameez", price: 5200, colors: [C.beige, C.white, C.olive], sizes: APPAREL_XL, description: "Premium European linen shalwar kameez in a relaxed contemporary cut. Stays crisp in summer heat while looking effortlessly put-together.", daysAgo: 6 },
-  { name: "Slim Fit Cotton Trousers", category: "Men", subcategory: "Trousers", price: 1900, colors: [C.black, C.beige, C.charcoal], sizes: APPAREL_XL, description: "Slim-fit cotton trousers cut for all-day comfort. Subtle stretch in the waistband and a tapered leg for a clean modern silhouette.", daysAgo: 11 },
-  { name: "Formal Dress Trousers", category: "Men", subcategory: "Trousers", price: 2600, salePrice: 1999, colors: [C.navy, C.black], sizes: APPAREL_XL, description: "Crisp formal trousers in poly-wool blend, tailored for the office and evenings out. Built-in stretch, hidden hook closure.", daysAgo: 14 },
-  { name: "Classic Waistcoat", category: "Men", subcategory: "Waistcoat", price: 3400, colors: [C.black, C.maroon], sizes: APPAREL_XL, description: "Tailored waistcoat with notched lapels and welt pockets. Layer it over a kurta or button-down for instant polish.", daysAgo: 18 },
-  { name: "Casual Pique Polo Shirt", category: "Men", subcategory: "Shirt", price: 1500, colors: [C.emerald, C.white, C.navy, C.charcoal], sizes: APPAREL_XL, description: "Soft pique cotton polo with a ribbed collar and two-button placket. Built for weekends, weeknights and everything in between.", isNew: true, daysAgo: 2 },
-  { name: "Slim Stretch Denim Jeans", category: "Men", subcategory: "Jeans", price: 3200, salePrice: 2499, colors: [C.navy, C.black], sizes: APPAREL_XL, description: "Slim-fit stretch denim with five-pocket styling and clean topstitching. Holds shape wash after wash.", isFeatured: true, daysAgo: 22 },
-
-  { name: "Kids Floral Frock", category: "Kids", subcategory: "Frock", price: 1800, salePrice: 1290, colors: [C.rose, C.sky], sizes: KIDS, description: "Adorable floral frock in soft cotton with a twirl-worthy hem and bow detail. Comfortable enough for play, sweet enough for portraits.", isNew: true, daysAgo: 1 },
-  { name: "Kids Party Frock", category: "Kids", subcategory: "Frock", price: 2400, colors: [C.rose, C.maroon], sizes: KIDS, outOfStockSizes: ["2-3Y"], description: "Festive layered frock with satin bow and tulle underskirt. Made for birthdays, Eid and everything in between.", daysAgo: 7 },
-  { name: "Kids Cotton Kurta Set", category: "Kids", subcategory: "Kurta Set", price: 2100, colors: [C.white, C.beige], sizes: KIDS, description: "Mini cotton kurta and matching shalwar for little men. Easy to wear, easy to wash, and ready for family functions.", isFeatured: true, daysAgo: 10 },
-  { name: "Kids Printed T-Shirt", category: "Kids", subcategory: "T-Shirt", price: 800, colors: [C.sky, C.emerald, C.mustard], sizes: KIDS, description: "Soft 100% cotton tee with playful prints kids actually want to wear. Tagless neckline for itch-free comfort.", isNew: true, daysAgo: 16 },
-  { name: "Kids Denim Dungaree", category: "Kids", subcategory: "Dungaree", price: 2700, salePrice: 1999, colors: [C.navy], sizes: KIDS, description: "Classic denim dungarees with adjustable straps and chest pocket. Durable enough for park days, cute enough for outings.", daysAgo: 13 },
-  { name: "Kids Knit Sweater", category: "Kids", subcategory: "Sweater", price: 1900, colors: [C.maroon, C.charcoal], sizes: KIDS, description: "Cozy knit sweater for cooler weather, with ribbed cuffs and crew neckline. Layers easily over shirts and tees.", daysAgo: 25 },
-
-  { name: "Genuine Leather Belt", category: "Accessories", subcategory: "Belt", price: 1400, colors: [C.black, C.beige], sizes: ["32", "34", "36", "38"], description: "Genuine cowhide leather belt with a brushed metal buckle. Ages beautifully and goes with everything from jeans to formal trousers.", daysAgo: 6 },
-  { name: "Canvas Tote Bag", category: "Accessories", subcategory: "Bag", price: 1100, salePrice: 849, colors: [C.beige, C.black, C.emerald], sizes: ONE, description: "Roomy heavy-canvas tote with reinforced straps. Perfect for groceries, the gym or weekend errands.", isNew: true, daysAgo: 3 },
-  { name: "Embroidered Evening Clutch", category: "Accessories", subcategory: "Bag", price: 2200, colors: [C.rose, C.maroon, C.emerald], sizes: ONE, description: "Hand-embroidered clutch with bead and sequin detailing. A statement finish for evenings, weddings and dinners out.", isFeatured: true, daysAgo: 19 },
-  { name: "Cotton Stole Wrap", category: "Accessories", subcategory: "Stole", price: 950, colors: [C.sky, C.beige, C.mustard], sizes: ONE, description: "Lightweight cotton stole with tassel finish. Layer it over kurtas, drape it as a scarf or use it as a shawl on cool nights.", daysAgo: 11 },
-  { name: "UV Protected Sunglasses", category: "Accessories", subcategory: "Eyewear", price: 1800, salePrice: 1299, colors: [C.black, C.beige], sizes: ONE, description: "Lightweight UV400 sunglasses with polarized lenses and acetate frame. Includes hard case and microfiber cloth.", isNew: true, daysAgo: 4 },
-  { name: "Wool Winter Scarf", category: "Accessories", subcategory: "Scarf", price: 1600, colors: [C.charcoal, C.maroon, C.navy], sizes: ONE, description: "Warm wool-blend scarf in classic colors. Wide enough to wrap, soft enough to wear all day.", daysAgo: 21 },
-  { name: "Handcrafted Khussa Shoes", category: "Accessories", subcategory: "Footwear", price: 2800, colors: [C.beige, C.maroon, C.emerald], sizes: ["6", "7", "8", "9", "10"], outOfStockSizes: ["10"], description: "Traditional Multani khussa handcrafted from genuine leather with tonal embroidery. Pairs beautifully with kurtas and formal wear.", daysAgo: 8 },
-  { name: "Slim Leather Wallet", category: "Accessories", subcategory: "Wallet", price: 1300, colors: [C.black, C.beige], sizes: ONE, description: "Slim bifold wallet in genuine leather with six card slots and a billfold compartment. Slips into any pocket.", daysAgo: 17 },
+const catalog = [
+  { name: "LAYXES Oversized Hoodie", category: "Hoodies" as Category, type: "Heavyweight hoodie", price: 4999, shades: [colors.black, colors.grey, colors.cream], image: "photo-1556821840-3a63f95609a7", desc: "Our signature oversized hoodie in 320 GSM cotton-rich fleece. Dropped shoulders, double-layer hood, and a brushed interior for lasting warmth.", featured: true },
+  { name: "LAYXES Essential Hoodie", category: "Hoodies" as Category, type: "Everyday hoodie", price: 4499, salePrice: 3999, shades: [colors.navy, colors.cream, colors.black], image: "photo-1578681994506-b8f463449011", desc: "An easy everyday layer in soft 300 GSM fleece. Clean lines, a relaxed fit, and a shape that holds its own season after season.", featured: true },
+  { name: "LAYXES Heavyweight Hoodie", category: "Hoodies" as Category, type: "Premium fleece", price: 5499, shades: [colors.grey, colors.black], image: "photo-1620799140408-edc6dcb6d633", desc: "Built for the coldest days. Dense 380 GSM brushed cotton fleece with ribbed cuffs and hem that keep their shape.", featured: true },
+  { name: "LAYXES Relaxed Sweatpants", category: "Bottoms" as Category, type: "Relaxed sweatpants", price: 3499, shades: [colors.grey, colors.black], image: "photo-1552902865-b72c031ac5ea", desc: "Relaxed straight-leg sweatpants in brushed fleece. Adjustable drawcord, deep pockets, and an easy all-day fit.", featured: true },
+  { name: "LAYXES Utility Trouser", category: "Bottoms" as Category, type: "Utility trouser", price: 3999, shades: [colors.black, colors.olive], image: "photo-1517438476312-10d79c077509", desc: "A clean utility trouser with a relaxed taper, roomy pockets, and durable cotton twill for everyday wear.", featured: false },
+  { name: "LAYXES Winter Set", category: "Sets" as Category, type: "Hoodie + sweatpants", price: 7999, shades: [colors.black, colors.grey, colors.cream], image: "photo-1556821840-3a63f95609a7", desc: "A matching heavyweight hoodie and relaxed sweatpant set. Two winter essentials, one effortless fit.", featured: true },
+  { name: "LAYXES Everyday Zip Hoodie", category: "Hoodies" as Category, type: "Zip-up hoodie", price: 4999, shades: [colors.black, colors.grey], image: "photo-1556821840-3a63f95609a7", desc: "A full-zip layer in soft brushed fleece, finished with a structured hood and practical split pockets.", featured: true },
+  { name: "LAYXES Core Crewneck", category: "Hoodies" as Category, type: "Crewneck sweatshirt", price: 4299, shades: [colors.cream, colors.black], image: "photo-1578681994506-b8f463449011", desc: "A clean crewneck built from substantial fleece, with ribbed cuffs and an easy relaxed shape.", featured: false },
+  { name: "LAYXES Essential Pullover", category: "Hoodies" as Category, type: "Pullover hoodie", price: 4799, shades: [colors.navy, colors.grey], image: "photo-1620799140408-edc6dcb6d633", desc: "Everyday warmth in a straightforward pullover silhouette with a roomy hood and soft brushed finish.", featured: false },
+  { name: "LAYXES Fleece Joggers", category: "Bottoms" as Category, type: "Tapered joggers", price: 3299, shades: [colors.black, colors.grey], image: "photo-1552902865-b72c031ac5ea", desc: "Soft fleece joggers with a tapered leg, elasticated cuffs, and an adjustable drawcord waist.", featured: true },
+  { name: "LAYXES Straight Leg Sweatpants", category: "Bottoms" as Category, type: "Straight-leg sweatpants", price: 3699, shades: [colors.grey, colors.black], image: "photo-1517438476312-10d79c077509", desc: "A relaxed straight-leg profile with a comfortable elastic waist and deep everyday pockets.", featured: false },
+  { name: "LAYXES Cargo Trouser", category: "Bottoms" as Category, type: "Utility cargo pants", price: 4499, shades: [colors.olive, colors.black], image: "photo-1551488831-00ddcb6c6bd3", desc: "Durable cotton cargo trousers with practical side pockets and a relaxed fit for daily wear.", featured: true },
+  { name: "LAYXES Relaxed Chino", category: "Bottoms" as Category, type: "Relaxed-fit trouser", price: 4199, shades: [colors.cream, colors.olive], image: "photo-1523398002811-999ca8dec234", desc: "An easy relaxed trouser with a clean finish, made to pair with everything from tees to heavyweight layers.", featured: false },
+  { name: "LAYXES Essential Co-ord Set", category: "Sets" as Category, type: "Sweatshirt + joggers", price: 7499, shades: [colors.grey, colors.black], image: "photo-1556821840-3a63f95609a7", desc: "A coordinated fleece sweatshirt and jogger set designed for comfortable off-duty days.", featured: true },
+  { name: "LAYXES Zip Hoodie Set", category: "Sets" as Category, type: "Zip hoodie + joggers", price: 8299, shades: [colors.black, colors.navy], image: "photo-1578681994506-b8f463449011", desc: "A matching full-zip hoodie and tapered jogger set with a soft interior and relaxed everyday fit.", featured: false },
+  { name: "LAYXES Heavyweight Lounge Set", category: "Sets" as Category, type: "Heavyweight fleece set", price: 8999, shades: [colors.cream, colors.grey], image: "photo-1620799140408-edc6dcb6d633", desc: "A substantial fleece top and relaxed bottoms, made as a versatile matching set for colder days.", featured: false },
 ];
-
-export const products: Product[] = SEEDS.map((s, i) => {
-  const id = `p${i + 1}`;
-  return {
-    id,
-    slug: `${slugify(s.name)}-${id}`,
-    name: s.name,
-    category: s.category,
-    subcategory: s.subcategory,
-    price: s.price,
-    salePrice: s.salePrice,
-    colors: s.colors,
-    sizes: s.sizes,
-    outOfStockSizes: s.outOfStockSizes,
-    images: gallery(`clothco-${id}`),
-    description: s.description,
-    stock: rand(0, 100),
-    isNew: s.isNew,
-    isFeatured: s.isFeatured,
-    rating: Math.round((3.5 + Math.random() * 1.5) * 10) / 10,
-    reviewCount: rand(10, 200),
-    createdAt: now - s.daysAgo * day,
-  };
+const now = Date.now();
+export const products: Product[] = catalog.map((p, i) => {
+  const image = `https://images.unsplash.com/${p.image}?auto=format&fit=crop&w=900&q=85`;
+  return { id: `p${i + 1}`, slug: `${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}-p${i + 1}`, name: p.name, category: p.category, subcategory: p.type, price: p.price, salePrice: "salePrice" in p ? p.salePrice : undefined, colors: p.shades, sizes, images: [image, image], description: p.desc, stock: 24 + i * 7, isNew: true, isFeatured: p.featured, rating: 4.8, reviewCount: 18 + i * 7, createdAt: now - i * 86_400_000 };
 });
 export const categories = [
-  { name: "Women" as Category, image: img("clothco-cat-women", 800, 1000), href: "/products?category=Women" },
-  { name: "Men" as Category, image: img("clothco-cat-men", 800, 1000), href: "/products?category=Men" },
-  { name: "Kids" as Category, image: img("clothco-cat-kids", 800, 1000), href: "/products?category=Kids" },
-  { name: "Accessories" as Category, image: img("clothco-cat-acc", 800, 1000), href: "/products?category=Accessories" },
-  { name: "Lawn" as any, image: img("clothco-cat-lawn", 800, 1000), href: "/products?category=Women" },
-  { name: "Formal" as any, image: img("clothco-cat-formal", 800, 1000), href: "/products?category=Men" },
-  { name: "Casual" as any, image: img("clothco-cat-casual", 800, 1000), href: "/products" },
-  { name: "Festive" as any, image: img("clothco-cat-festive", 800, 1000), href: "/products" },
+  { name: "Hoodies" as Category, image: products[0].images[0], href: "/products?category=Hoodies" },
+  { name: "Bottoms" as Category, image: products[3].images[0], href: "/products?category=Bottoms" },
+  { name: "Sets" as Category, image: products[5].images[0], href: "/products?category=Sets" },
 ];
-
-export const heroImage = img("clothco-hero-banner", 1920, 1080);
-
+export const heroImage = "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=2000&q=90";
 export const provinces = ["Punjab", "Sindh", "KPK", "Balochistan", "AJK", "Gilgit-Baltistan"];
-
-export const allColors: ColorOption[] = (() => {
-  const map = new Map<string, ColorOption>();
-  products.forEach((p) => p.colors.forEach((c) => map.set(c.name, c)));
-  return Array.from(map.values());
-})();
-
-export const allSizes = Array.from(new Set(products.flatMap((p) => p.sizes)));
-
+export const allColors: ColorOption[] = Object.values(colors);
+export const allSizes = sizes;
 export const findBySlug = (slug: string) => products.find((p) => p.slug === slug);

@@ -9,7 +9,7 @@ export default function OrderSuccessPage() {
   const [name, setName] = useState("");
   const [orderId, setOrderId] = useState("");
   useEffect(() => {
-    setName(sessionStorage.getItem("clothco-last-name") || "");
+    setName(sessionStorage.getItem("layxes-last-name") || "");
     setOrderId(`ORD-${Math.floor(1000 + Math.random() * 9000)}`);
   }, []);
 

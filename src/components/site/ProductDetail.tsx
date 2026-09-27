@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Minus, Plus, ChevronRight, Star, Heart, Share2, Truck, RefreshCw, ShieldCheck } from "lucide-react";
@@ -13,6 +14,7 @@ import { products, type Product } from "@/lib/mock-data";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
 import { useWishlist } from "@/lib/wishlist-store";
+import { openCartDrawer } from "@/lib/cart-events";
 
 export function ProductDetail({ product }: { product: Product }) {
   const [imgIdx, setImgIdx] = useState(0);
@@ -54,9 +56,9 @@ export function ProductDetail({ product }: { product: Product }) {
       },
       qty,
     );
-    toast.success("Added to cart", { description: `${product.name} • ${size} • ${color.name}` });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+    openCartDrawer();
   };
 
   const onShare = async () => {
@@ -83,11 +85,14 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
           {/* Gallery */}
           <div>
-            <div className="group aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60">
-              <img
+            <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60">
+              <Image
                 src={product.images[imgIdx]}
                 alt={product.name}
-                className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 60vw"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
               />
             </div>
             <div className="mt-3 grid grid-cols-4 gap-3">
@@ -95,9 +100,9 @@ export function ProductDetail({ product }: { product: Product }) {
                 <button
                   key={src}
                   onClick={() => setImgIdx(i)}
-                  className={`aspect-square overflow-hidden rounded-xl border-2 transition ${i === imgIdx ? "border-primary" : "border-transparent hover:border-border"}`}
+                  className={`relative aspect-square overflow-hidden rounded-xl border-2 transition ${i === imgIdx ? "border-primary" : "border-transparent hover:border-border"}`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-cover" />
+                  <Image src={src} alt={`${product.name} view ${i + 1}`} fill sizes="96px" className="object-cover" />
                 </button>
               ))}
             </div>
@@ -216,7 +221,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
             {/* Highlights */}
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2"><Truck className="h-4 w-4 text-primary" /> Free delivery on orders over Rs. 2,000</li>
+              <li className="flex items-center gap-2"><Truck className="h-4 w-4 text-primary" /> Free delivery on orders over Rs. 5,000</li>
               <li className="flex items-center gap-2"><RefreshCw className="h-4 w-4 text-primary" /> Easy 7-day returns</li>
               <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Genuine fabric, quality guaranteed</li>
             </ul>
@@ -258,7 +263,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               </TabsContent>
               <TabsContent value="ship" className="text-sm leading-relaxed text-muted-foreground">
-                Free standard shipping on orders over Rs. 2,000 across Pakistan. Delivery in 3–5 business days. Cash on delivery available.
+                Free standard shipping on orders over Rs. 5,000 across Pakistan. Delivery in 3–5 business days. Cash on delivery available.
               </TabsContent>
             </Tabs>
           </div>
