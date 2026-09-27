@@ -115,8 +115,8 @@ export function ProductDetail({ product }: { product: Product }) {
             <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{product.subcategory}</p>
             <h1 className="mt-1 font-display text-3xl font-bold tracking-tight md:text-4xl">{product.name}</h1>
 
-            {/* Rating */}
-            <div className="mt-3 flex items-center gap-2 text-sm">
+            {/* Rating data and markup are kept ready, but hidden until reviews are launched. */}
+            {false && <div className="mt-3 flex items-center gap-2 text-sm">
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`} />
@@ -124,7 +124,7 @@ export function ProductDetail({ product }: { product: Product }) {
               </div>
               <span className="font-medium">{product.rating.toFixed(1)}</span>
               <span className="text-muted-foreground">· {product.reviewCount} reviews</span>
-            </div>
+            </div>}
 
             {/* Price */}
             <div className="mt-4 flex items-center gap-3">

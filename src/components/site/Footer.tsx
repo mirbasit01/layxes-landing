@@ -40,7 +40,7 @@ export function Footer() {
           <div className="mt-4 flex gap-2">
             <SocialBtn href="https://instagram.com/layxes.studio" label="Instagram"><Instagram className="h-4 w-4" /></SocialBtn>
             <SocialBtn href="https://facebook.com" label="Facebook"><Facebook className="h-4 w-4" /></SocialBtn>
-            <SocialBtn href="https://wa.me/923001234567" label="WhatsApp"><MessageCircle className="h-4 w-4" /></SocialBtn>
+            <SocialBtn href="https://wa.me/923704104941" label="WhatsApp"><MessageCircle className="h-4 w-4" /></SocialBtn>
           </div>
         </div>
         <div>
@@ -64,12 +64,13 @@ export function Footer() {
         <div>
           <h4 className="mb-3 text-xs font-bold uppercase tracking-wider">Customer Service</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link className="hover:text-foreground" href="/terms">Terms of service</Link></li>
             <li><a className="hover:text-foreground" href="#">Shipping & Returns</a></li>
             <li><a className="hover:text-foreground" href="#">Size Guide</a></li>
             <li><a className="hover:text-foreground" href="#">FAQ</a></li>
-            <li><a className="hover:text-foreground" href="#">Contact Us</a></li>
+            <li><a className="hover:text-foreground" href="mailto:hello@layxes.pk">Contact Us</a></li>
             <li className="pt-2">Faisalabad, Pakistan</li>
-            <li>+92 370 4104941</li>
+            <li><a href="tel:+923704104941">+92 370 4104941</a></li>
           </ul>
         </div>
       </div>

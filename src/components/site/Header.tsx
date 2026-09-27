@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Moon, Sun, Search, ShoppingBag, Heart, Menu, X, ChevronDown } from "lucide-react";
+import { Moon, Sun, Search, ShoppingBag, Heart, Menu, X, ChevronDown, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/lib/theme";
@@ -96,6 +96,7 @@ export function Header() {
                 </button>
                 {mobileMenu === n.label && <div className="grid grid-cols-2 gap-2 px-4 pb-4">{n.menu.flatMap((group) => group.links).map((item) => <Link key={`${n.label}-${item.label}`} href={item.href} className="py-1 text-xs text-muted-foreground hover:text-foreground">{item.label}</Link>)}</div>}
               </div> : <Link key={n.label} href={n.href} className={`rounded-xl px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-muted ${n.accent ? "text-foreground underline underline-offset-4" : ""}`}>{n.label}</Link>)}
+              <Link href="/account" className="mt-3 border-t border-border/70 px-4 py-4 text-sm font-semibold uppercase tracking-wide">Sign in / My account</Link>
             </nav>
           </SheetContent>
         </Sheet>
@@ -153,6 +154,9 @@ export function Header() {
                 {wishCount}
               </span>
             )}
+          </Link>
+          <Link href="/account" aria-label="Your account" className="hidden sm:inline-flex">
+            <Button variant="ghost" size="icon" aria-label="Your account"><UserRound className="h-5 w-5" /></Button>
           </Link>
           <Button type="button" variant="ghost" size="icon" onClick={openCartDrawer} className="relative" aria-label="Open cart">
             <ShoppingBag className="h-5 w-5" />

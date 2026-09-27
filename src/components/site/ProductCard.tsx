@@ -87,11 +87,12 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="text-sm font-semibold leading-tight line-clamp-1 group-hover:text-primary transition-colors">
           {product.name}
         </h3>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+        {/* Rating data and markup are kept ready, but hidden until reviews are launched. */}
+        {false && <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <Star className="h-3 w-3 fill-current text-foreground" />
           <span>{product.rating.toFixed(1)}</span>
           <span>· {product.reviewCount}</span>
-        </div>
+        </div>}
         <div className="flex items-center gap-2 text-sm">
           {onSale ? (
             <>
