@@ -78,6 +78,7 @@ export function Footer() {
           <span>© {new Date().getFullYear()} LAYXES. All rights reserved.</span>
           <div className="flex items-center gap-2">
             <PayBadge>VISA</PayBadge>
+            
             <PayBadge>Mastercard</PayBadge>
             <PayBadge>JazzCash</PayBadge>
             <PayBadge>EasyPaisa</PayBadge>

@@ -83,7 +83,7 @@ export function Header() {
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-80">
+          <SheetContent side="left" className="w-[min(85vw,20rem)] overflow-y-auto">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
                 <Image src="/brand/layxes-logo.svg" alt="LAYXES" width={135} height={34} className={`h-8 w-auto ${homeOverlay ? "invert-0" : "invert dark:invert-0"}`} />

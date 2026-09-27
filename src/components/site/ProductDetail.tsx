@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { Minus, Plus, ChevronRight, Star, Heart, Share2, Truck, RefreshCw, ShieldCheck } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
@@ -23,6 +23,7 @@ export function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
   const [shake, setShake] = useState(false);
   const [added, setAdded] = useState(false);
+  const sizeSelectorRef = useRef<HTMLDivElement>(null);
   const addItem = useCart((s) => s.addItem);
   const wishHas = useWishlist((s) => s.ids.includes(product.id));
   const wishToggle = useWishlist((s) => s.toggle);
@@ -37,6 +38,7 @@ export function ProductDetail({ product }: { product: Product }) {
       toast.error("Please select a size");
       setShake(true);
       setTimeout(() => setShake(false), 500);
+      sizeSelectorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     if (product.outOfStockSizes?.includes(size)) {
@@ -73,7 +75,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <SiteShell>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 py-5 pb-28 sm:px-6 sm:py-8 md:pb-8">
         <nav className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
           <Link href="/" className="hover:text-foreground">Home</Link>
           <ChevronRight className="h-3 w-3" />
@@ -82,10 +84,10 @@ export function ProductDetail({ product }: { product: Product }) {
           <span className="text-foreground">{product.subcategory}</span>
         </nav>
 
-        <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
+        <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:gap-10">
           {/* Gallery */}
           <div>
-            <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60">
+            <div className="group relative mx-auto aspect-[4/5] max-h-[58svh] w-full overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60 sm:max-h-none">
               <Image
                 src={product.images[imgIdx]}
                 alt={product.name}
@@ -95,8 +97,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
               />
             </div>
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {product.images.slice(0, 4).map((src: string, i: number) => (
+            {product.images.length > 1 && <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
+              {product.images.filter((src, i, images) => images.indexOf(src) === i).slice(0, 4).map((src: string, i: number) => (
                 <button
                   key={src}
                   onClick={() => setImgIdx(i)}
@@ -105,7 +107,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   <Image src={src} alt={`${product.name} view ${i + 1}`} fill sizes="96px" className="object-cover" />
                 </button>
               ))}
-            </div>
+            </div>}
           </div>
 
           {/* Info */}
@@ -142,7 +144,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <hr className="my-6 border-border" />
 
             {/* Size */}
-            <div>
+            <div ref={sizeSelectorRef}>
               <div className="mb-2 flex items-center justify-between">
                 <h3 className="text-sm font-semibold">Select Size</h3>
                 <button className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">Size Guide</button>
@@ -266,6 +268,16 @@ export function ProductDetail({ product }: { product: Product }) {
                 Free standard shipping on orders over Rs. 5,000 across Pakistan. Delivery in 3–5 business days. Cash on delivery available.
               </TabsContent>
             </Tabs>
+          </div>
+        </div>
+
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 pt-3 shadow-[0_-8px_24px_rgba(0,0,0,.08)] backdrop-blur md:hidden" style={{ paddingBottom: "max(.75rem, env(safe-area-inset-bottom))" }}>
+          <div className="mx-auto flex max-w-lg items-center gap-3">
+            <div className="min-w-0 shrink-0">
+              <p className="truncate text-[10px] text-muted-foreground">{size ? `Size ${size}` : "Choose a size"}</p>
+              <p className="text-sm font-semibold">{formatPrice(unitPrice)}</p>
+            </div>
+            <Button className="h-11 flex-1" onClick={onAdd}>{added ? "Added!" : "Add to Cart"}</Button>
           </div>
         </div>
 

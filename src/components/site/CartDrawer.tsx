@@ -26,7 +26,7 @@ export function CartDrawer() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetContent side="right" className="flex h-full w-[min(92vw,440px)] flex-col gap-0 p-0 sm:max-w-[440px]">
+      <SheetContent side="right" className="flex h-dvh w-[min(92vw,440px)] flex-col gap-0 overflow-hidden p-0">
         <SheetHeader className="border-b border-border px-5 py-5 pr-12 text-left sm:px-6">
           <SheetTitle className="flex items-center gap-2 font-display text-lg uppercase tracking-[.1em]">
             <ShoppingBag className="h-4 w-4" /> Your bag <span className="text-sm font-normal text-muted-foreground">({items.reduce((sum, item) => sum + item.quantity, 0)})</span>
@@ -45,7 +45,7 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
-            <div className="flex-1 space-y-5 overflow-y-auto px-5 py-5 sm:px-6">
+            <div className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6">
               {subtotal < 5000 && <div className="border border-border p-3 text-xs leading-5">You’re {formatPrice(5000 - subtotal)} away from free delivery.</div>}
               {items.map((item) => (
                 <div key={item.key} className="flex gap-4 border-b border-border pb-5">

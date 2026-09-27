@@ -36,7 +36,7 @@ const catalog = [
 const now = Date.now();
 export const products: Product[] = catalog.map((p, i) => {
   const image = `https://images.unsplash.com/${p.image}?auto=format&fit=crop&w=900&q=85`;
-  return { id: `p${i + 1}`, slug: `${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}-p${i + 1}`, name: p.name, category: p.category, subcategory: p.type, price: p.price, salePrice: "salePrice" in p ? p.salePrice : undefined, colors: p.shades, sizes, images: [image, image], description: p.desc, stock: 24 + i * 7, isNew: true, isFeatured: p.featured, rating: 4.8, reviewCount: 18 + i * 7, createdAt: now - i * 86_400_000 };
+  return { id: `p${i + 1}`, slug: `${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}-p${i + 1}`, name: p.name, category: p.category, subcategory: p.type, price: p.price, salePrice: "salePrice" in p ? p.salePrice : undefined, colors: p.shades, sizes, images: [image], description: p.desc, stock: 24 + i * 7, isNew: true, isFeatured: p.featured, rating: 4.8, reviewCount: 18 + i * 7, createdAt: now - i * 86_400_000 };
 });
 export const categories = [
   { name: "Hoodies" as Category, image: products[0].images[0], href: "/products?category=Hoodies" },
