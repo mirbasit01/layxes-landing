@@ -73,7 +73,7 @@ export function Header() {
       className={`${homeOverlay ? "absolute inset-x-0 top-0" : "sticky top-0 backdrop-blur"} z-40 w-full border-b transition-all ${homeOverlay ? `border-transparent bg-transparent text-white hover:border-white/10 hover:bg-black focus-within:border-white/10 focus-within:bg-black ${scrolled ? "bg-black shadow-sm" : ""}` : "border-border/60 bg-background/85 supports-[backdrop-filter]:bg-background/70"} ${scrolled ? "shadow-sm" : ""}`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center gap-4 px-4 transition-all sm:px-6 ${
+        className={`mx-auto flex max-w-7xl items-center gap-2 px-3 transition-all sm:gap-4 sm:px-6 ${
           scrolled ? "h-14" : "h-16"
         }`}
       >
@@ -101,11 +101,11 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/brand/layxes-logo.svg" alt="LAYXES — Home" width={150} height={37} priority className={`h-8 w-auto ${homeOverlay ? "invert-0" : "invert dark:invert-0"}`} />
+        <Link href="/" className="flex min-w-0 shrink items-center gap-2.5">
+          <Image src="/brand/layxes-logo.svg" alt="LAYXES — Home" width={150} height={37} priority className={`h-7 w-auto max-w-[108px] sm:h-8 sm:max-w-none ${homeOverlay ? "invert-0" : "invert dark:invert-0"}`} />
         </Link>
 
-        <nav className="ml-6 hidden items-center gap-4 xl:flex">
+        <nav className="ml-3 hidden items-center gap-3 xl:flex 2xl:ml-6 2xl:gap-4">
             {NAV.filter((n) => n.label !== "Home").map((n) => {
               const active = n.href === pathname;
               const hasMenu = "menu" in n && n.menu;
@@ -125,13 +125,13 @@ export function Header() {
 
         <div className="ml-auto flex items-center gap-1">
           {searchOpen ? (
-            <form onSubmit={submitSearch} className="flex items-center gap-1 animate-fade-in">
+            <form onSubmit={submitSearch} className="absolute left-3 right-3 top-full z-50 flex items-center gap-1 border border-border bg-background p-2 text-foreground shadow-lg animate-fade-in sm:left-auto sm:right-6 sm:w-80">
               <Input
                 autoFocus
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search products..."
-                className="h-9 w-44 sm:w-64"
+                className="h-9 min-w-0 flex-1"
               />
               <Button type="button" variant="ghost" size="icon" onClick={() => setSearchOpen(false)} aria-label="Close search">
                 <X className="h-5 w-5" />
@@ -142,7 +142,7 @@ export function Header() {
               <Search className="h-5 w-5" />
             </Button>
           )}
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme" className="hidden min-[360px]:inline-flex">
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
           <Link href="/wishlist" className="relative">

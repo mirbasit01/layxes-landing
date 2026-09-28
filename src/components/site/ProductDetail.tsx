@@ -76,18 +76,18 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <SiteShell>
       <div className="mx-auto max-w-7xl px-4 py-5 pb-28 sm:px-6 sm:py-8 md:pb-8">
-        <nav className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
+        <nav aria-label="Breadcrumb" className="mb-4 flex min-w-0 flex-wrap items-center gap-1 text-xs text-muted-foreground sm:mb-6">
           <Link href="/" className="hover:text-foreground">Home</Link>
           <ChevronRight className="h-3 w-3" />
           <Link href={`/products?category=${encodeURIComponent(product.category)}`} className="hover:text-foreground">{product.category}</Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground">{product.subcategory}</span>
+          <span className="min-w-0 break-words text-foreground">{product.subcategory}</span>
         </nav>
 
-        <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:gap-10">
+        <div className="grid min-w-0 gap-5 sm:gap-6 md:grid-cols-[3fr_2fr] md:gap-10">
           {/* Gallery */}
-          <div>
-            <div className="group relative mx-auto aspect-[4/5] max-h-[58svh] w-full overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60 sm:max-h-none">
+          <div className="mx-auto min-w-0 w-[min(86vw,20rem)] sm:w-full">
+            <div className="group relative mx-auto aspect-square w-full overflow-hidden rounded-2xl bg-muted ring-1 ring-border/60 sm:aspect-[4/5]">
               <Image
                 src={product.images[imgIdx]}
                 alt={product.name}
@@ -111,9 +111,9 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           {/* Info */}
-          <div>
+          <div className="min-w-0">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{product.subcategory}</p>
-            <h1 className="mt-1 font-display text-3xl font-bold tracking-tight md:text-4xl">{product.name}</h1>
+            <h1 className="mt-1 font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">{product.name}</h1>
 
             {/* Rating data and markup are kept ready, but hidden until reviews are launched. */}
             {false && <div className="mt-3 flex items-center gap-2 text-sm">
